@@ -1,0 +1,750 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OnePersonCompany</title>
+  <style>
+    :root {
+      --bg: #f7f3ea;
+      --card: #fffdf8;
+      --ink: #1f2a37;
+      --muted: #5f6b7a;
+      --line: #e4d9c1;
+      --brand: #0f766e;
+      --accent: #b45309;
+      --danger: #b91c1c;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Avenir Next", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background:
+        radial-gradient(circle at 18% 10%, rgba(15,118,110,.12), transparent 35%),
+        radial-gradient(circle at 84% 92%, rgba(180,83,9,.14), transparent 45%),
+        var(--bg);
+      min-height: 100vh;
+    }
+    .shell { max-width: 1240px; margin: 0 auto; padding: 20px; }
+    .hero {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 22px;
+      background: linear-gradient(135deg, #fff8ee 0%, #f7efdf 100%);
+      display: grid;
+      grid-template-columns: 1.35fr .65fr;
+      gap: 16px;
+      align-items: center;
+      animation: fadeIn .45s ease;
+    }
+    .hero h1 { margin: 0 0 8px; font-size: 30px; }
+    .hero p { margin: 0; color: var(--muted); line-height: 1.6; }
+    .pill { display: inline-block; margin-right: 8px; margin-top: 10px; padding: 5px 10px; border-radius: 999px; background: #fff; border: 1px solid var(--line); font-size: 12px; }
+    .hero-card {
+      border: 1px dashed #ccb88e;
+      border-radius: 12px;
+      padding: 12px;
+      background: rgba(255,255,255,.7);
+    }
+    .hero-card .k { font-size: 12px; color: var(--muted); }
+    .hero-card .v { font-size: 22px; font-weight: 700; margin-top: 4px; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+      margin-top: 14px;
+      animation: fadeUp .35s ease;
+    }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+      background: var(--card);
+      box-shadow: 0 8px 24px rgba(31,42,55,.04);
+    }
+    .col-3 { grid-column: span 3; }
+    .col-4 { grid-column: span 4; }
+    .col-5 { grid-column: span 5; }
+    .col-6 { grid-column: span 6; }
+    .col-7 { grid-column: span 7; }
+    .col-8 { grid-column: span 8; }
+    .col-12 { grid-column: span 12; }
+    h2 { margin: 0 0 10px; font-size: 16px; }
+    .muted { color: var(--muted); font-size: 12px; }
+    label { display: block; font-size: 12px; color: var(--muted); margin: 8px 0 4px; }
+    input, select, textarea, button {
+      width: 100%;
+      border: 1px solid #dacdb2;
+      border-radius: 10px;
+      background: #fff;
+      color: inherit;
+      font: inherit;
+      padding: 8px 10px;
+    }
+    textarea { min-height: 104px; resize: vertical; }
+    button {
+      border: none;
+      cursor: pointer;
+      background: var(--brand);
+      color: #fff;
+      font-weight: 600;
+      transition: transform .08s ease, opacity .2s ease;
+    }
+    button:active { transform: translateY(1px); }
+    button.secondary { background: #334155; }
+    button.accent { background: var(--accent); }
+    .btn {
+      border: none;
+      border-radius: 10px;
+      background: var(--brand);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-block;
+      padding: 8px 10px;
+    }
+    button.ghost {
+      background: #fff;
+      color: #1f2a37;
+      border: 1px solid #d7cab0;
+    }
+    button:disabled { opacity: .55; cursor: not-allowed; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+    .template-list { display: grid; gap: 8px; }
+    .template {
+      border: 1px solid #ddcfb5;
+      border-radius: 12px;
+      background: #fff;
+      padding: 10px;
+    }
+    .template .title { font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+    .template .desc { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+    .mono {
+      white-space: pre-wrap;
+      border: 1px dashed #cdbd9e;
+      border-radius: 12px;
+      background: #fff;
+      min-height: 180px;
+      padding: 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .task {
+      display: grid;
+      grid-template-columns: 72px 1fr 64px 66px;
+      gap: 8px;
+      align-items: center;
+      border-bottom: 1px solid #eee3cf;
+      padding: 8px 0;
+    }
+    .task:last-child { border-bottom: none; }
+    .chip {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 12px;
+    }
+    .chip.todo { background: #fff7ed; color: #9a3412; }
+    .chip.done { background: #ecfdf5; color: #166534; }
+    .chip.blocked { background: #fef2f2; color: #991b1b; }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(17,24,39,.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 40;
+      animation: fadeIn .2s ease;
+    }
+    .overlay[hidden] {
+      display: none !important;
+    }
+    .auth {
+      width: min(520px, 92vw);
+      border: 1px solid #d8c8a6;
+      border-radius: 16px;
+      background: linear-gradient(165deg, #fff9ef 0%, #f6ecdb 100%);
+      padding: 18px;
+      box-shadow: 0 18px 50px rgba(0,0,0,.18);
+    }
+    .auth h3 { margin: 0 0 8px; }
+    .auth p { margin: 0 0 10px; color: var(--muted); }
+    .status-ok { color: #166534; }
+    .status-err { color: var(--danger); }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 980px) {
+      .hero { grid-template-columns: 1fr; }
+      .col-3,.col-4,.col-5,.col-6,.col-7,.col-8 { grid-column: span 12; }
+      .task { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div id="authOverlay" class="overlay" hidden>
+    <div class="auth">
+      <h3>欢迎来到 OnePersonCompany</h3>
+      <p>先填两项信息，马上进入你的创始人工作台。</p>
+      <label>你的称呼</label>
+      <input id="founderName" placeholder="例如：Kai" />
+      <label>项目名称</label>
+      <input id="projectName" placeholder="例如：AI Billing Copilot" />
+      <div class="row" style="margin-top:10px;">
+        <button id="btnEnter" type="button">进入工作台</button>
+        <button id="btnSkip" type="button" class="ghost">跳过</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="shell">
+    <section class="hero">
+      <div>
+        <h1>OnePersonCompany</h1>
+        <p id="heroText">把一人创业的日常混乱，变成可执行、可复盘、可传播的交付物。</p>
+        <span class="pill">LLM-Driven</span>
+        <span class="pill">Founder OS</span>
+        <span class="pill">Share-Ready</span>
+      </div>
+      <div class="hero-card">
+        <div class="k">今天目标</div>
+        <div class="v">1 分钟出一份可分享成果</div>
+        <div class="muted" id="whoami" style="margin-top:8px;">未设置创始人信息</div>
+        <div class="row" style="margin-top:10px;">
+          <button id="btnInstantDemo" type="button" class="accent">30 秒体验（免 Key）</button>
+          <a href="/demo" class="btn" style="text-align:center;padding-top:9px;">公开演示页</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="grid">
+      <section class="card col-4">
+        <h2>价值对比</h2>
+        <div class="muted">先看“前后变化”，再决定要不要深入使用。</div>
+        <label>Before（传统方式）</label>
+        <div class="mono" id="valueBefore">等待演示...</div>
+        <label>After（OnePersonCompany）</label>
+        <div class="mono" id="valueAfter">等待演示...</div>
+        <div class="muted" id="valueStatement" style="margin-top:8px;"></div>
+      </section>
+
+      <section class="card col-8">
+        <h2>案例模板库</h2>
+        <div class="template-list" id="templateList"></div>
+      </section>
+
+      <section class="card col-8">
+        <h2>流程执行</h2>
+        <div class="row3">
+          <div>
+            <label>流程</label>
+            <select id="flow">
+              <option value="daily-brief">每日简报</option>
+              <option value="launch-pack">发版包</option>
+              <option value="weekly-review">周复盘</option>
+            </select>
+          </div>
+          <div>
+            <label>语言</label>
+            <select id="lang">
+              <option value="zh">中文</option>
+              <option value="en">English</option>
+            </select>
+          </div>
+          <div>
+            <label>快速动作</label>
+            <button id="btnRun" type="button">生成产物</button>
+          </div>
+        </div>
+        <label>更新输入（每行一条）</label>
+        <textarea id="updates" placeholder="今天修了支付重试\n3个用户反馈定价页不清晰"></textarea>
+        <div class="row" style="margin-top:8px;">
+          <button id="btnInit" type="button" class="secondary">初始化任务</button>
+          <button id="btnDemo" type="button" class="accent">一键 Demo Day0</button>
+        </div>
+        <div id="runState" class="muted" style="margin-top:8px;"></div>
+      </section>
+
+      <section class="card col-6">
+        <h2>任务看板</h2>
+        <div class="row">
+          <input id="taskTitle" placeholder="新增任务，例如：补齐退款 FAQ" />
+          <button id="btnAddTask" type="button" class="secondary">新增任务</button>
+        </div>
+        <div class="row" style="margin-top:8px;">
+          <select id="taskPriority">
+            <option value="1">P1</option>
+            <option value="2">P2</option>
+            <option value="3" selected>P3</option>
+            <option value="4">P4</option>
+            <option value="5">P5</option>
+          </select>
+          <button id="btnReloadTasks" type="button" class="ghost">刷新</button>
+        </div>
+        <div id="tasks" style="margin-top:10px;"></div>
+      </section>
+
+      <section class="card col-6">
+        <h2>分享文案</h2>
+        <div class="row">
+          <button id="btnShare" type="button" class="secondary">生成分享文案</button>
+          <button id="btnCopyShare" type="button" class="ghost">复制文案</button>
+        </div>
+        <div class="mono" id="shareOut"></div>
+      </section>
+
+      <section class="card col-6">
+        <h2>多平台分享素材包</h2>
+        <div class="row">
+          <button id="btnSharePack" type="button" class="secondary">生成素材包</button>
+          <button id="btnCopySharePack" type="button" class="ghost">复制全部</button>
+        </div>
+        <div class="mono" id="sharePackOut"></div>
+      </section>
+
+      <section class="card col-12">
+        <h2>结果卡片</h2>
+        <div class="row3" style="margin-bottom:8px;">
+          <select id="cardTheme">
+            <option value="amber">Amber Paper</option>
+            <option value="midnight">Midnight Neon</option>
+            <option value="mint">Mint Studio</option>
+          </select>
+          <button id="btnCopyOutput" type="button" class="ghost">复制结果</button>
+          <button id="btnExportPng" type="button" class="accent">导出 PNG</button>
+        </div>
+        <div class="mono" id="output">等待生成...</div>
+        <p class="muted">遇到 LLM config error：请先在终端设置模型 Key（README 有示例）。</p>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const memStore = {};
+
+    function safeGet(key) {
+      try {
+        return localStorage.getItem(key);
+      } catch (e) {
+        return memStore[key] || null;
+      }
+    }
+
+    function safeSet(key, value) {
+      try {
+        localStorage.setItem(key, value);
+      } catch (e) {
+        memStore[key] = value;
+      }
+    }
+
+    const TEMPLATES = [
+      {
+        title: '独立开发日更模板',
+        desc: '生成每天可发的 build-in-public 简报',
+        flow: 'daily-brief',
+        lang: 'zh',
+        updates: ['今天修了支付重试', '2个用户反馈取消流程不清晰', '准备本周发版说明']
+      },
+      {
+        title: '发版冲刺模板',
+        desc: '上线前一天自动生成发版包',
+        flow: 'launch-pack',
+        lang: 'zh',
+        updates: ['新增邀请返利功能', '补齐 onboarding 指标看板', '客服整理 5 条高频问题']
+      },
+      {
+        title: '英文周复盘模板',
+        desc: '生成英文可分享周复盘',
+        flow: 'weekly-review',
+        lang: 'en',
+        updates: ['Shipped referral tracking', 'Reduced failed checkout by 18%', 'Need cleaner cancellation UX']
+      }
+    ];
+    const CARD_THEMES = {
+      amber: {
+        bg1: '#fdf7eb',
+        bg2: '#f5ecdc',
+        orb1: 'rgba(15,118,110,0.12)',
+        orb2: 'rgba(180,83,9,0.10)',
+        title: '#1f2a37',
+        subtitle: '#5f6b7a',
+        cardBg: '#ffffff',
+        cardBorder: '#dccfb4',
+        cardTitle: '#0f766e',
+        body: '#1f2a37',
+        footer: '#5f6b7a'
+      },
+      midnight: {
+        bg1: '#0f172a',
+        bg2: '#1e293b',
+        orb1: 'rgba(56,189,248,0.24)',
+        orb2: 'rgba(168,85,247,0.20)',
+        title: '#e2e8f0',
+        subtitle: '#94a3b8',
+        cardBg: '#111827',
+        cardBorder: '#334155',
+        cardTitle: '#38bdf8',
+        body: '#e5e7eb',
+        footer: '#93c5fd'
+      },
+      mint: {
+        bg1: '#ecfeff',
+        bg2: '#ecfdf5',
+        orb1: 'rgba(20,184,166,0.20)',
+        orb2: 'rgba(34,197,94,0.16)',
+        title: '#0f172a',
+        subtitle: '#0f766e',
+        cardBg: '#ffffff',
+        cardBorder: '#99f6e4',
+        cardTitle: '#0d9488',
+        body: '#0f172a',
+        footer: '#0f766e'
+      }
+    };
+
+    async function api(path, method = 'GET', body) {
+      const res = await fetch(path, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: body ? JSON.stringify(body) : undefined,
+      });
+      const text = await res.text();
+      let data;
+      try { data = JSON.parse(text); } catch { data = { raw: text }; }
+      if (!res.ok) throw new Error((data && (data.detail || data.raw)) || `HTTP ${res.status}`);
+      return data;
+    }
+
+    function parseUpdates(raw) {
+      return raw.split('\n').map(s => s.trim()).filter(Boolean).map(summary => ({ summary, source: 'web' }));
+    }
+
+    function setOutput(text) {
+      $('output').textContent = text || '（空输出）';
+    }
+
+    function setShare(text) {
+      $('shareOut').textContent = text || '（空输出）';
+    }
+
+    function setSharePack(text) {
+      $('sharePackOut').textContent = text || '（空输出）';
+    }
+
+    function setValueCompare(beforeArr, afterArr, statement) {
+      $('valueBefore').textContent = (beforeArr || []).map(item => `- ${item}`).join('\n') || '（空）';
+      $('valueAfter').textContent = (afterArr || []).map(item => `- ${item}`).join('\n') || '（空）';
+      $('valueStatement').textContent = statement || '';
+    }
+
+    async function copyText(text) {
+      if (!text) return;
+      await navigator.clipboard.writeText(text);
+    }
+
+    function renderTemplates() {
+      $('templateList').innerHTML = TEMPLATES.map((t, i) => `
+        <div class="template">
+          <div class="title">${t.title}</div>
+          <div class="desc">${t.desc}</div>
+          <button class="ghost tplBtn" data-idx="${i}">套用模板</button>
+        </div>
+      `).join('');
+      document.querySelectorAll('.tplBtn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const t = TEMPLATES[Number(btn.dataset.idx)];
+          $('flow').value = t.flow;
+          $('lang').value = t.lang;
+          $('updates').value = t.updates.join('\n');
+          $('runState').textContent = `已套用模板：${t.title}`;
+        });
+      });
+    }
+
+    function taskRow(task) {
+      const status = task.status || 'todo';
+      const dis = status === 'done' ? 'disabled' : '';
+      return `
+        <div class="task">
+          <div><span class="chip ${status}">${status}</span></div>
+          <div>${task.title}</div>
+          <div>P${task.priority}</div>
+          <div><button class="doneBtn" data-id="${task.id}" ${dis}>完成</button></div>
+        </div>
+      `;
+    }
+
+    async function loadTasks() {
+      try {
+        const data = await api('/tasks');
+        $('tasks').innerHTML = data.length ? data.map(taskRow).join('') : '<div class="muted">暂无任务</div>';
+        document.querySelectorAll('.doneBtn').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            try {
+              await api('/tasks/status', 'POST', { task_id: btn.dataset.id, status: 'done' });
+              await loadTasks();
+            } catch (e) {
+              $('runState').innerHTML = `<span class="status-err">任务更新失败：${e.message}</span>`;
+            }
+          });
+        });
+      } catch (e) {
+        $('tasks').innerHTML = `<div class="status-err">加载任务失败：${e.message}</div>`;
+      }
+    }
+
+    async function runFlow() {
+      try {
+        const flow = $('flow').value;
+        const lang = $('lang').value;
+        const updates = parseUpdates($('updates').value);
+        const out = await api(`/run/${flow}`, 'POST', { updates, lang });
+        setOutput(out.artifact ? out.artifact.content : JSON.stringify(out, null, 2));
+        $('runState').innerHTML = '<span class="status-ok">生成成功</span>';
+        await loadTasks();
+      } catch (e) {
+        setOutput('生成失败：' + e.message);
+        $('runState').innerHTML = `<span class="status-err">${e.message}</span>`;
+      }
+    }
+
+    async function runInstantDemo() {
+      try {
+        const lang = $('lang').value;
+        const out = await api('/demo/instant', 'POST', { lang, updates: [] });
+        setValueCompare(out.before, out.after, out.value_statement);
+        setOutput(out.sample_output || JSON.stringify(out, null, 2));
+        $('runState').innerHTML = '<span class="status-ok">已完成 30 秒体验</span>';
+      } catch (e) {
+        $('runState').innerHTML = `<span class="status-err">体验失败：${e.message}</span>`;
+      }
+    }
+
+    function wrapText(ctx, text, x, y, maxWidth, lineHeight, maxLines) {
+      const lines = [];
+      text.split('\n').forEach(rawLine => {
+        const words = rawLine.split(' ');
+        let line = '';
+        for (const word of words) {
+          const test = line ? line + ' ' + word : word;
+          if (ctx.measureText(test).width > maxWidth) {
+            if (line) lines.push(line);
+            line = word;
+          } else {
+            line = test;
+          }
+        }
+        lines.push(line || '');
+      });
+      const clipped = lines.slice(0, maxLines);
+      clipped.forEach((line, i) => ctx.fillText(line, x, y + i * lineHeight));
+      if (lines.length > maxLines) {
+        ctx.fillText('...', x, y + (maxLines - 1) * lineHeight);
+      }
+    }
+
+    function exportResultCardPng() {
+      const text = $('output').textContent.trim() || 'No output yet';
+      const who = $('whoami').textContent || '';
+      const themeKey = $('cardTheme').value || 'amber';
+      const theme = CARD_THEMES[themeKey] || CARD_THEMES.amber;
+      const canvas = document.createElement('canvas');
+      canvas.width = 1200;
+      canvas.height = 1500;
+      const ctx = canvas.getContext('2d');
+
+      const grad = ctx.createLinearGradient(0, 0, 1200, 1500);
+      grad.addColorStop(0, theme.bg1);
+      grad.addColorStop(1, theme.bg2);
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = theme.orb1;
+      ctx.beginPath(); ctx.arc(140, 130, 180, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = theme.orb2;
+      ctx.beginPath(); ctx.arc(980, 1260, 260, 0, Math.PI * 2); ctx.fill();
+
+      ctx.fillStyle = theme.title;
+      ctx.font = 'bold 52px Avenir Next, PingFang SC';
+      ctx.fillText('OnePersonCompany', 72, 112);
+
+      ctx.font = '24px Avenir Next, PingFang SC';
+      ctx.fillStyle = theme.subtitle;
+      ctx.fillText(who, 72, 152);
+
+      ctx.fillStyle = theme.cardBg;
+      ctx.strokeStyle = theme.cardBorder;
+      ctx.lineWidth = 2;
+      ctx.fillRect(56, 196, 1088, 1180);
+      ctx.strokeRect(56, 196, 1088, 1180);
+
+      ctx.fillStyle = theme.cardTitle;
+      ctx.font = 'bold 28px Avenir Next, PingFang SC';
+      ctx.fillText('Result Card', 88, 250);
+
+      ctx.fillStyle = theme.body;
+      ctx.font = '22px Menlo, Monaco, monospace';
+      wrapText(ctx, text, 88, 296, 1022, 34, 30);
+
+      ctx.fillStyle = theme.footer;
+      ctx.font = '20px Avenir Next, PingFang SC';
+      ctx.fillText('#OnePersonCompany  #AIAgent  #BuildInPublic', 88, 1430);
+
+      const a = document.createElement('a');
+      const ts = new Date().toISOString().replace(/[:.]/g, '-');
+      a.href = canvas.toDataURL('image/png');
+      a.download = `opc-result-${ts}.png`;
+      a.click();
+    }
+
+    function initAuth() {
+      const founder = safeGet('opc_founder') || '';
+      const project = safeGet('opc_project') || '';
+      if (!founder && !project) {
+        $('authOverlay').hidden = false;
+      }
+      renderWho(founder, project);
+
+      $('btnEnter').addEventListener('click', () => {
+        const name = $('founderName').value.trim() || 'Founder';
+        const proj = $('projectName').value.trim() || 'One-Person Startup';
+        safeSet('opc_founder', name);
+        safeSet('opc_project', proj);
+        renderWho(name, proj);
+        $('authOverlay').hidden = true;
+      });
+
+      $('btnSkip').addEventListener('click', () => {
+        safeSet('opc_founder', 'Founder');
+        safeSet('opc_project', 'One-Person Startup');
+        renderWho('Founder', 'One-Person Startup');
+        $('authOverlay').hidden = true;
+      });
+    }
+
+    function renderWho(founder, project) {
+      if (!founder && !project) {
+        $('whoami').textContent = '未设置创始人信息';
+        $('heroText').textContent = '把一人创业的日常混乱，变成可执行、可复盘、可传播的交付物。';
+        return;
+      }
+      $('whoami').textContent = `${founder} · ${project}`;
+      $('heroText').textContent = `${founder}，今天继续推进 ${project}。先把复杂工作流压缩成一份可传播结果。`;
+    }
+
+    $('btnRun').addEventListener('click', runFlow);
+
+    $('btnInit').addEventListener('click', async () => {
+      try {
+        const out = await api('/init', 'POST');
+        $('runState').innerHTML = `<span class="status-ok">初始化成功，新增 ${out.created_tasks} 个任务</span>`;
+        await loadTasks();
+      } catch (e) {
+        $('runState').innerHTML = `<span class="status-err">初始化失败：${e.message}</span>`;
+      }
+    });
+
+    $('btnDemo').addEventListener('click', async () => {
+      try {
+        const lang = $('lang').value;
+        const out = await api('/demo/day0', 'POST', { lang, updates: [] });
+        setOutput(JSON.stringify(out, null, 2));
+        $('runState').innerHTML = '<span class="status-ok">Demo 生成完成</span>';
+        await loadTasks();
+      } catch (e) {
+        setOutput('Demo 失败：' + e.message);
+        $('runState').innerHTML = `<span class="status-err">${e.message}</span>`;
+      }
+    });
+
+    $('btnInstantDemo').addEventListener('click', runInstantDemo);
+
+    $('btnAddTask').addEventListener('click', async () => {
+      try {
+        const title = $('taskTitle').value.trim();
+        if (!title) return;
+        await api('/tasks', 'POST', {
+          title,
+          priority: Number($('taskPriority').value),
+          source: 'web'
+        });
+        $('taskTitle').value = '';
+        await loadTasks();
+      } catch (e) {
+        $('runState').innerHTML = `<span class="status-err">新增任务失败：${e.message}</span>`;
+      }
+    });
+
+    $('btnReloadTasks').addEventListener('click', loadTasks);
+
+    $('btnShare').addEventListener('click', async () => {
+      try {
+        const out = await api('/share', 'POST', { lang: $('lang').value, updates: [] });
+        setShare(`${out.title}\n\n${out.content}`);
+      } catch (e) {
+        setShare('生成分享文案失败：' + e.message);
+      }
+    });
+
+    $('btnCopyShare').addEventListener('click', async () => {
+      await copyText($('shareOut').textContent.trim());
+      $('runState').innerHTML = '<span class="status-ok">分享文案已复制</span>';
+    });
+
+    $('btnSharePack').addEventListener('click', async () => {
+      try {
+        const out = await api('/share/pack', 'POST', { lang: $('lang').value, updates: [] });
+        const payload = [
+          `标题：${out.title}`,
+          '',
+          '[X / 推特]',
+          out.x_post,
+          '',
+          '[朋友圈]',
+          out.moments_post,
+          '',
+          '[小红书]',
+          out.xiaohongshu_post,
+        ].join('\n');
+        setSharePack(payload);
+      } catch (e) {
+        setSharePack('生成素材包失败：' + e.message);
+      }
+    });
+
+    $('btnCopySharePack').addEventListener('click', async () => {
+      await copyText($('sharePackOut').textContent.trim());
+      $('runState').innerHTML = '<span class="status-ok">素材包已复制</span>';
+    });
+
+    $('btnCopyOutput').addEventListener('click', async () => {
+      await copyText($('output').textContent.trim());
+      $('runState').innerHTML = '<span class="status-ok">结果已复制</span>';
+    });
+
+    $('btnExportPng').addEventListener('click', () => {
+      exportResultCardPng();
+      $('runState').innerHTML = '<span class="status-ok">PNG 已导出</span>';
+    });
+
+    initAuth();
+    renderTemplates();
+    loadTasks();
+    runInstantDemo();
+  </script>
+</body>
+</html>

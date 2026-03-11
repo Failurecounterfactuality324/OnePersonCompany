@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OnePersonCompany Demo</title>
+  <style>
+    :root {
+      --bg: #f5efe4;
+      --ink: #1f2a37;
+      --muted: #5f6b7a;
+      --line: #decfb1;
+      --card: #fffaf1;
+      --brand: #0f766e;
+      --accent: #9a3412;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Avenir Next", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 14%, rgba(15,118,110,.14), transparent 38%),
+        radial-gradient(circle at 90% 88%, rgba(154,52,18,.12), transparent 35%),
+        var(--bg);
+      min-height: 100vh;
+    }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 24px; }
+    .hero {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: linear-gradient(135deg, #fff8eb 0%, #f8efdf 100%);
+      padding: 20px;
+    }
+    .hero h1 { margin: 0; font-size: 30px; }
+    .hero p { margin: 8px 0 0; color: var(--muted); }
+    .row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
+    .stat {
+      border: 1px dashed #d6c49f;
+      border-radius: 12px;
+      padding: 10px;
+      background: rgba(255,255,255,.72);
+    }
+    .stat .k { font-size: 12px; color: var(--muted); }
+    .stat .v { font-size: 24px; font-weight: 700; margin-top: 4px; }
+    .panel {
+      margin-top: 14px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--card);
+      padding: 14px;
+    }
+    .head { display:flex; justify-content:space-between; align-items:center; gap:8px; }
+    .head h2 { margin: 0; font-size: 16px; }
+    .muted { color: var(--muted); font-size: 12px; }
+    .btn {
+      border: none;
+      border-radius: 10px;
+      background: var(--brand);
+      color: #fff;
+      padding: 8px 12px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn.alt { background: #334155; }
+    .list { display: grid; gap: 10px; margin-top: 10px; }
+    .item {
+      border: 1px solid #e8dcc5;
+      border-radius: 12px;
+      background: #fff;
+      padding: 10px;
+    }
+    .item .title { font-weight: 700; font-size: 14px; }
+    .item .meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .item .preview { margin-top: 6px; font-size: 13px; line-height: 1.45; }
+    .empty { color: var(--muted); font-size: 13px; padding: 6px 0; }
+    @media (max-width: 880px) { .row { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>OnePersonCompany Public Demo</h1>
+      <p>只读演示页：展示最近成果，适合直接分享链接给潜在用户和社区。</p>
+      <div class="row">
+        <div class="stat"><div class="k">任务总数</div><div class="v" id="taskCount">-</div></div>
+        <div class="stat"><div class="k">已完成任务</div><div class="v" id="doneCount">-</div></div>
+        <div class="stat"><div class="k">产物总数</div><div class="v" id="artifactCount">-</div></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="head">
+        <h2>最近产物（只读）</h2>
+        <div>
+          <button class="btn alt" id="btnRefresh">刷新</button>
+          <a class="btn" href="/">进入控制台</a>
+        </div>
+      </div>
+      <div class="muted">该页面不提供写操作，只展示最新成果快照。</div>
+      <div class="list" id="artifactList"></div>
+      <div class="muted" id="lastUpdated" style="margin-top:10px;"></div>
+    </section>
+  </div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+
+    async function loadSnapshot() {
+      const res = await fetch('/public/snapshot');
+      const data = await res.json();
+      $('taskCount').textContent = data.task_count ?? 0;
+      $('doneCount').textContent = data.done_task_count ?? 0;
+      $('artifactCount').textContent = data.artifact_count ?? 0;
+
+      const list = data.latest_artifacts || [];
+      if (!list.length) {
+        $('artifactList').innerHTML = '<div class="empty">暂无产物，先到控制台运行一次流程。</div>';
+      } else {
+        $('artifactList').innerHTML = list.map(item => `
+          <div class="item">
+            <div class="title">${item.title}</div>
+            <div class="meta">${item.artifact_type} · ${item.created_at}</div>
+            <div class="preview">${item.preview}</div>
+          </div>
+        `).join('');
+      }
+      $('lastUpdated').textContent = `最后更新：${new Date().toLocaleString()}`;
+    }
+
+    $('btnRefresh').addEventListener('click', () => {
+      loadSnapshot().catch(err => {
+        $('artifactList').innerHTML = `<div class="empty">加载失败：${err.message}</div>`;
+      });
+    });
+
+    loadSnapshot().catch(err => {
+      $('artifactList').innerHTML = `<div class="empty">加载失败：${err.message}</div>`;
+    });
+  </script>
+</body>
+</html>
